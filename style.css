@@ -1,0 +1,163 @@
+:root {
+  /* 통일된 색 팔레트 - 파랑(브랜드) + 주황(강조) 보색 조합 */
+  --brand: #2563eb;
+  --brand-dark: #1e3a8a;
+  --page-bg: #eef2f9;
+  --land: #cbd5e1;
+  --land-hover: #64748b;
+  --land-selected: #f97316;
+
+  /* Bootstrap 색상 변수를 브랜드 색으로 통일 (버튼/배경/텍스트 유틸리티에 자동 반영) */
+  --bs-primary: var(--brand);
+  --bs-primary-rgb: 37, 99, 235;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--page-bg);
+}
+
+/* 헤더 */
+.header-hero {
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.header-hero h1 {
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-hero .lead {
+  opacity: 0.92;
+}
+
+/* 지도 영역 */
+#map-container {
+  max-width: 1100px;
+  width: 100%;
+}
+
+.world-map-svg {
+  display: block;
+  width: 100%;
+  /* svg-pan-zoom이 초기화되면서 viewBox 속성을 제거하므로,
+     height: auto가 참조할 종횡비를 CSS에서 직접 고정해 둔다. */
+  aspect-ratio: 784.077 / 458.627;
+  height: auto;
+}
+
+.world-map-svg .country {
+  fill: var(--land);
+  stroke: #ffffff;
+  stroke-width: 0.5;
+  transition: fill 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.world-map-svg .country:hover {
+  fill: var(--land-hover);
+}
+
+.world-map-svg .country.selected {
+  fill: var(--land-selected);
+}
+
+/* 확대/축소 버튼 - 지도 우측 하단 원형 버튼 */
+.zoom-controls {
+  z-index: 10;
+}
+
+.zoom-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Modal */
+#countryModal .modal-content {
+  border: none;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+#countryModal .modal-header {
+  border-bottom: 3px solid var(--brand);
+}
+
+.country-flag-frame {
+  background-color: var(--page-bg);
+  padding: 1.5rem 1rem;
+}
+
+.country-flag-img {
+  display: block;
+  max-width: 85%;
+  max-height: 170px;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  background-color: #fff;
+}
+
+.country-name {
+  font-size: 1.75rem;
+  color: var(--brand-dark);
+}
+
+.country-info-list .list-group-item {
+  border-left: none;
+  border-right: none;
+}
+
+.country-info-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--brand);
+}
+
+.country-info-label {
+  font-size: 0.8rem;
+}
+
+/* 576px 이하 모바일 화면 세부 조정 */
+@media (max-width: 576px) {
+  .header-hero {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .header-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-hero .lead {
+    font-size: 0.95rem;
+  }
+
+  #map-container {
+    padding: 0.5rem !important;
+  }
+
+  .country-flag-img {
+    max-height: 110px;
+  }
+
+  .country-name {
+    font-size: 1.35rem;
+  }
+}
