@@ -138,7 +138,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (ev.type === "pinchstart") {
           initialScale = instance.getZoom();
         }
-        instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y });
+        // zoomAtPoint는 SVG 좌표계의 점을 기대하므로, 화면 좌표(clientX/Y)인
+        // ev.center를 getScreenCTM 역행렬로 변환해야 손가락이 있는 지점이 확대 중심이 된다.
+        const screenPoint = options.svgElement.createSVGPoint();
+        screenPoint.x = ev.center.x;
+        screenPoint.y = ev.center.y;
+        const svgPoint = screenPoint.matrixTransform(
+          options.svgElement.getScreenCTM().inverse()
+        );
+        instance.zoomAtPoint(initialScale * ev.scale, svgPoint);
       });
 
       options.svgElement.addEventListener("touchmove", (e) => e.preventDefault());
